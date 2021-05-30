@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+   	xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+          
+ <!-- Autowiring by name -->  
+<bean id="initAndDestory" class="com.pluralsight.lifecycle.InitAndDestroy" autowire="byName">
+	<property name="id" value="201"></property>
+</bean>
+<bean id="address" 
+		class="com.pluralsight.lifecycle.Address" 
+		c:city="Indore">
+</bean>
+
+<!-- byType 
+	It will search for the Address type attribute. so, It is already defined above for the byName autowiring
+-->
+<bean id="initAndDestoryByType" class="com.pluralsight.lifecycle.InitAndDestroy" autowire="byType">
+	<property name="id" value="202"></property>
+</bean>
+
+<!-- by Constructor -->
+<bean id="fullAddress" class="com.pluralsight.lifecycle.FullAddress" autowire="constructor">
+	<constructor-arg name="pincode" value="452015"></constructor-arg>
+</bean>
+<bean id="country" class="com.pluralsight.lifecycle.Country"
+		c:state="M.P." c:city="Indore"
+/>
+  
+</beans>

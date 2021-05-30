@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.pluralsight</groupId>
+  <artifactId>spring_sample</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <!-- VERSION number is not needed because we are using bill of material in dependency management. -->
+      <!--   <version>4.0.8.RELEASE</version> -->
+       <!--  <scope>runtime</scope> -->
+    </dependency>
+</dependencies>
+
+<!-- It is possible to in spring to use the different version of spring dependency and It will cause issue. 
+To overcome such problems Maven supports the concept of a "bill of materials" (BOM) dependency.
+
+Ref. 
+https://docs.spring.io/spring-framework/docs/4.0.8.RELEASE/spring-framework-reference/html/overview.html
+ -->
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-framework-bom</artifactId>
+            <version>4.0.8.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+		</dependency>
+		<!--  now below we don't need to specify the versions for spring jar -->
+		
+		
+		<!-- we can exclude common.logging which is default loggin technique in spring core. We can explicitly exclude if
+			the end user want to include other logging technique.
+		 -->
+		<!--  <dependency>
+		 	<groupId>org.springframework</groupId>
+		 	<artifactId>spring-core</artifactId>
+		 	<exclusions>
+		 		<exclusion>
+		 			<groupId>common-logging</groupId>
+		 			<artifactId>common-logging</artifactId>
+		 		</exclusion>
+		 	</exclusions>
+		 </dependency> -->
+		 
+	</dependencies>
+</dependencyManagement>
+  
+  <build>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-compiler-plugin</artifactId>
+  			<version>3.2</version>
+  			<configuration>
+  				<source>1.8</source>
+  				<target>1.8</target>
+  			</configuration>
+  		</plugin>
+  	</plugins>
+  </build>
+</project>

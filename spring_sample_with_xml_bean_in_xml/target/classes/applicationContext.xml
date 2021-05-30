@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+   	xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+            
+ <!-- If we will use default-lazy-init then all the bean will be lazy -->
+<!-- <beans default-lazy-init="true">
+    no beans will be pre-instantiated...
+</beans> -->
+
+<!-- now bean will be lazy. i.e. when user will call getBean that time bean will be create
+	using ApplicationContext otherwise It was eager.
+ -->
+ 
+ <!-- setter based dependency injection -->
+	<bean id="hello" class="com.pluralsight.repo.CustomerRepoImpl" lazy-init="true"/>
+		
+	<bean id="customerService" class="com.pluralsight.service.CustomerServiceImpl">
+			<property name="customerRepo" ref="hello"></property>
+	</bean>
+	
+<!-- constructor injection -->
+<bean id="customerServiceConsDemo" class="com.pluralsight.service.CustomerServiceImpl">
+	<constructor-arg index="0" ref="hello"></constructor-arg>
+</bean>
+	
+	<!-- Instantiation of bean using static method -->
+	<bean id="clientService" class="com.pluralsight.factory.ClientService"  factory-method="createInstance"></bean>
+	
+	
+	<!-- Instantiation of bean using class level method  -->
+	<bean id="basicBean" class="com.pluralsight.factory.ClientInstanceFactoryClass"></bean>
+	<bean id="accountService" factory-bean="basicBean" factory-method="getAccountService"></bean>
+	<bean id="departmentService" factory-bean="basicBean" factory-method="getDepartmentService"></bean>
+	
+	
+	<!-- Lifecycle callback -->
+	<bean id="address" class="com.pluralsight.lifecycle.Address">
+		<constructor-arg name="city" value="Indore"></constructor-arg>
+	</bean>
+	<bean id="initAndDestory" 
+			class="com.pluralsight.lifecycle.InitAndDestroy"
+			init-method="afterPropSet"
+			destroy-method="cleanup"
+			c:id="1"
+			c:address-ref="address">
+	</bean>
+	
+	<bean id="init-destory-using-interface"
+		class="com.pluralsight.lifecycle.InitDestroyMethodBeanDemo"
+	 p:fName="Neeraj" p:lName="Sharma" c:address-ref="address"></bean>
+
+	<!-- properties file will be load using below xml configuration -->
+	<!-- <context:property-placeholder location="classpath:sport.properties"/> -->
+
+    <!-- bean definitions here -->
+    <!-- <bean id="myCoach" class="ioc.HockeyCoach"></bean> -->
+    
+    <!--  This refrence, I'm gonna to use for constructor injection -->
+    <!-- <bean id="baseBallFortuneService" class="constructor.injection.BaseBallFortuneService"></bean> -->
+    
+<!--     <bean id="baseBallCoach" class="constructor.injection.BaseBallCoach">
+    	IN the below line we are using constructor injection 
+    	<constructor-arg ref="baseBallFortuneService"></constructor-arg>
+    </bean> -->
+    
+    <!--  setter based injection -->
+  <!--   <bean id="fortunerDataForCrk" class="setter.injection.CricketFortuneService"></bean>
+    <bean id="cricketCoach" class="setter.injection.CricketCoach">
+    	 setting up the object values
+    	<property name="fortuneService" ref="fortunerDataForCrk"></property> -->
+    	
+    	<!--  setting up the literal values -->
+    	<!-- <property name="favouriteGround" value="MohaliGround"></property>
+    	<property name="team" value="India"></property>
+    	
+    	 Reading literals values from properties file
+    	<property name="totalPlayer" value="${foo.totalPlayer}"/>
+    	<property name="firstPlayer" value="${foo.firstPlayer}"/>
+    </bean> -->
+
+</beans>
